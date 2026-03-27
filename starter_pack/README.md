@@ -29,11 +29,12 @@ Students are expected to implement the intellectually central parts of the proje
 
 ## Team
 
-Replace this section with your team members and high-level responsibilities.
 
-- Name 1: role
-- Name 2: role
-- Name 3: role
+- Ziyad Muradov: Load Data, Preprocessing, Softmax Regression, Cross-Entropy + Metrics, Sanity Checks
+- Emin Huseynli: Forward Pass, Hidden Layer (tanh), Backpropagation, Parameter Updates
+- Ismayil Yusifli : Training Loop, Mini-batching, Run Experiments, Ablations, Seed Runs
+- Kamal Soltanaliyev: Plot Decision Boundaries, Training Curves, Statistics (CI), Advanced Track
+
 
 ## Suggested Repository Layout
 
