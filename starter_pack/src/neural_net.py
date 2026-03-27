@@ -1,5 +1,5 @@
 import numpy as np
-from src.softmax import softmax, softmax_forward, cross_entropy_loss, l2_regularization_loss, l2_regularization_grad
+from softmax import softmax, softmax_forward, cross_entropy_loss, l2_regularization_loss, l2_regularization_grad
 
 
 def hidden_activation (X, W, b):
