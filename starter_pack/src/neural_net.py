@@ -1,5 +1,5 @@
 import numpy as np
-from src.softmax import softmax, softmax_forward, cross_entropy_loss, l2_regularization_loss, l2_regularization_grad
+from softmax import softmax, softmax_forward, cross_entropy_loss, l2_regularization_loss, l2_regularization_grad
 
 
 def hidden_activation (X, W, b):
@@ -17,7 +17,7 @@ def nn_forward(X, W1, b1, W2, b2):
         P: probabilities (n, k)
     """
     H = hidden_activation (X, W1, b1)          # (n, h)
-    P = softmax_forward(X,W2,b2)               # (n, k)
+    P = softmax_forward(H,W2,b2)               # (n, k)
 
     return H, P
 
