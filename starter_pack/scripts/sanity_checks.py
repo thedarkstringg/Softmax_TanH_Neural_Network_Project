@@ -1,9 +1,16 @@
 """
 Sanity checks for softmax regression implementation.
 """
+import os
+import sys
+
+current_dir = os.path.dirname(__file__)
+parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
+
+sys.path.append(parent_dir)
 
 import numpy as np
-from softmax import (
+from src.softmax import (
     softmax, cross_entropy_loss, accuracy, softmax_forward,
     softmax_gradients, l2_regularization_loss, l2_regularization_grad
 )
