@@ -1,9 +1,16 @@
+import os
+import sys
 import numpy as np
+
+CURRENT_DIR = os.path.dirname(__file__)
+SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
+if SRC_DIR not in sys.path:
+    sys.path.append(SRC_DIR)
+
 from softmax import softmax, softmax_forward, cross_entropy_loss, l2_regularization_loss, l2_regularization_grad
 
-
 def hidden_activation (X, W, b):
-    return np.tan(X @ W.T + b)
+    return np.tanh(X @ W.T + b)
 
 # -------------------------
 # Forward Pass

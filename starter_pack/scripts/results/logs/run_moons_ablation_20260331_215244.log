@@ -1,0 +1,54 @@
+Log file: C:\Users\User\OneDrive\Documents\GitHub\Math4AI_Final_Project\starter_pack\scripts\results\logs\run_moons_ablation_20260331_215244.log
+
+===== Moons Width Ablation: h = 2 =====
+Epoch 0, Train Loss: 0.6931, Train Acc: 0.7292, Val Loss: 0.6931, Val Acc: 0.8125
+Epoch 10, Train Loss: 0.6929, Train Acc: 0.5000, Val Loss: 0.6929, Val Acc: 0.5000
+Epoch 20, Train Loss: 0.6919, Train Acc: 0.7583, Val Loss: 0.6918, Val Acc: 0.8375
+Epoch 30, Train Loss: 0.6864, Train Acc: 0.8000, Val Loss: 0.6855, Val Acc: 0.8250
+Epoch 40, Train Loss: 0.6601, Train Acc: 0.7917, Val Loss: 0.6555, Val Acc: 0.8250
+Epoch 50, Train Loss: 0.5828, Train Acc: 0.8125, Val Loss: 0.5665, Val Acc: 0.8375
+Epoch 60, Train Loss: 0.4831, Train Acc: 0.8042, Val Loss: 0.4482, Val Acc: 0.8625
+Epoch 70, Train Loss: 0.4150, Train Acc: 0.8292, Val Loss: 0.3645, Val Acc: 0.8625
+Epoch 80, Train Loss: 0.3752, Train Acc: 0.8333, Val Loss: 0.3150, Val Acc: 0.8625
+Epoch 90, Train Loss: 0.3506, Train Acc: 0.8417, Val Loss: 0.2850, Val Acc: 0.8750
+Train - Loss: 0.3356, Acc: 0.8542
+Val   - Loss: 0.2672, Acc: 0.8750
+Test  - Loss: 0.3268, Acc: 0.8375
+
+===== Moons Width Ablation: h = 8 =====
+Epoch 0, Train Loss: 0.6931, Train Acc: 0.8125, Val Loss: 0.6930, Val Acc: 0.8375
+Epoch 10, Train Loss: 0.6923, Train Acc: 0.6083, Val Loss: 0.6922, Val Acc: 0.5750
+Epoch 20, Train Loss: 0.6883, Train Acc: 0.7792, Val Loss: 0.6877, Val Acc: 0.8250
+Epoch 30, Train Loss: 0.6679, Train Acc: 0.7875, Val Loss: 0.6645, Val Acc: 0.8250
+Epoch 40, Train Loss: 0.5938, Train Acc: 0.8042, Val Loss: 0.5795, Val Acc: 0.8250
+Epoch 50, Train Loss: 0.4781, Train Acc: 0.8083, Val Loss: 0.4429, Val Acc: 0.8500
+Epoch 60, Train Loss: 0.4023, Train Acc: 0.8125, Val Loss: 0.3483, Val Acc: 0.8625
+Epoch 70, Train Loss: 0.3632, Train Acc: 0.8333, Val Loss: 0.2983, Val Acc: 0.8625
+Epoch 80, Train Loss: 0.3404, Train Acc: 0.8375, Val Loss: 0.2698, Val Acc: 0.8625
+Epoch 90, Train Loss: 0.3255, Train Acc: 0.8500, Val Loss: 0.2523, Val Acc: 0.8750
+Train - Loss: 0.3162, Acc: 0.8625
+Val   - Loss: 0.2415, Acc: 0.8875
+Test  - Loss: 0.3040, Acc: 0.8375
+
+===== Moons Width Ablation: h = 32 =====
+Epoch 0, Train Loss: 0.6930, Train Acc: 0.6917, Val Loss: 0.6930, Val Acc: 0.6625
+Epoch 10, Train Loss: 0.6894, Train Acc: 0.7667, Val Loss: 0.6889, Val Acc: 0.7750
+Epoch 20, Train Loss: 0.6729, Train Acc: 0.7792, Val Loss: 0.6702, Val Acc: 0.8250
+Epoch 30, Train Loss: 0.6070, Train Acc: 0.8000, Val Loss: 0.5948, Val Acc: 0.8250
+Epoch 40, Train Loss: 0.4870, Train Acc: 0.8167, Val Loss: 0.4540, Val Acc: 0.8375
+Epoch 50, Train Loss: 0.4041, Train Acc: 0.8125, Val Loss: 0.3508, Val Acc: 0.8625
+Epoch 60, Train Loss: 0.3632, Train Acc: 0.8292, Val Loss: 0.2977, Val Acc: 0.8625
+Epoch 70, Train Loss: 0.3398, Train Acc: 0.8375, Val Loss: 0.2685, Val Acc: 0.8625
+Epoch 80, Train Loss: 0.3247, Train Acc: 0.8500, Val Loss: 0.2505, Val Acc: 0.8750
+Epoch 90, Train Loss: 0.3145, Train Acc: 0.8583, Val Loss: 0.2390, Val Acc: 0.8875
+Train - Loss: 0.3081, Acc: 0.8708
+Val   - Loss: 0.2318, Acc: 0.8750
+Test  - Loss: 0.2938, Acc: 0.8500
+
+===== Summary =====
+h=2: Test Loss=0.3268, Test Acc=0.8375
+h=8: Test Loss=0.3040, Test Acc=0.8375
+h=32: Test Loss=0.2938, Test Acc=0.8500
+
+Finished successfully.
+Saved log to: C:\Users\User\OneDrive\Documents\GitHub\Math4AI_Final_Project\starter_pack\scripts\results\logs\run_moons_ablation_20260331_215244.log

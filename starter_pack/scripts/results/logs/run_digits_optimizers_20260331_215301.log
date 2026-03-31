@@ -1,0 +1,87 @@
+Log file: C:\Users\User\OneDrive\Documents\GitHub\Math4AI_Final_Project\starter_pack\scripts\results\logs\run_digits_optimizers_20260331_215301.log
+
+===== Optimizer: sgd =====
+[sgd] Epoch 0, Train Loss: 2.3012, Train Acc: 0.2002, Val Loss: 2.3012, Val Acc: 0.2085
+[sgd] Epoch 10, Train Loss: 2.2352, Train Acc: 0.6434, Val Loss: 2.2353, Val Acc: 0.6451
+[sgd] Epoch 20, Train Loss: 1.5455, Train Acc: 0.6359, Val Loss: 1.5498, Val Acc: 0.6282
+[sgd] Epoch 30, Train Loss: 0.9060, Train Acc: 0.8128, Val Loss: 0.9182, Val Acc: 0.7831
+[sgd] Epoch 40, Train Loss: 0.5842, Train Acc: 0.8976, Val Loss: 0.6048, Val Acc: 0.8732
+[sgd] Epoch 50, Train Loss: 0.4142, Train Acc: 0.9255, Val Loss: 0.4397, Val Acc: 0.9099
+[sgd] Epoch 60, Train Loss: 0.3174, Train Acc: 0.9423, Val Loss: 0.3437, Val Acc: 0.9239
+[sgd] Epoch 70, Train Loss: 0.2573, Train Acc: 0.9469, Val Loss: 0.2844, Val Acc: 0.9324
+[sgd] Epoch 80, Train Loss: 0.2176, Train Acc: 0.9590, Val Loss: 0.2452, Val Acc: 0.9465
+[sgd] Epoch 90, Train Loss: 0.1897, Train Acc: 0.9665, Val Loss: 0.2182, Val Acc: 0.9549
+[sgd] Epoch 100, Train Loss: 0.1688, Train Acc: 0.9711, Val Loss: 0.1988, Val Acc: 0.9549
+[sgd] Epoch 110, Train Loss: 0.1528, Train Acc: 0.9777, Val Loss: 0.1851, Val Acc: 0.9634
+[sgd] Epoch 120, Train Loss: 0.1398, Train Acc: 0.9804, Val Loss: 0.1736, Val Acc: 0.9634
+[sgd] Epoch 130, Train Loss: 0.1292, Train Acc: 0.9804, Val Loss: 0.1652, Val Acc: 0.9606
+[sgd] Epoch 140, Train Loss: 0.1204, Train Acc: 0.9823, Val Loss: 0.1586, Val Acc: 0.9606
+[sgd] Epoch 150, Train Loss: 0.1128, Train Acc: 0.9851, Val Loss: 0.1528, Val Acc: 0.9634
+[sgd] Epoch 160, Train Loss: 0.1064, Train Acc: 0.9860, Val Loss: 0.1485, Val Acc: 0.9606
+[sgd] Epoch 170, Train Loss: 0.1007, Train Acc: 0.9870, Val Loss: 0.1448, Val Acc: 0.9606
+[sgd] Epoch 180, Train Loss: 0.0955, Train Acc: 0.9870, Val Loss: 0.1420, Val Acc: 0.9606
+[sgd] Epoch 190, Train Loss: 0.0910, Train Acc: 0.9870, Val Loss: 0.1398, Val Acc: 0.9606
+sgd Best Epoch: 199
+Train - Loss: 0.0874, Acc: 0.9888
+Val   - Loss: 0.1381, Acc: 0.9606
+Test  - Loss: 0.2005, Acc: 0.9375
+
+===== Optimizer: momentum =====
+[momentum] Epoch 0, Train Loss: 2.2948, Train Acc: 0.1034, Val Loss: 2.2949, Val Acc: 0.1014
+[momentum] Epoch 10, Train Loss: 0.1763, Train Acc: 0.9674, Val Loss: 0.2056, Val Acc: 0.9662
+[momentum] Epoch 20, Train Loss: 0.0919, Train Acc: 0.9832, Val Loss: 0.1428, Val Acc: 0.9690
+[momentum] Epoch 30, Train Loss: 0.0619, Train Acc: 0.9935, Val Loss: 0.1301, Val Acc: 0.9662
+[momentum] Epoch 40, Train Loss: 0.0477, Train Acc: 0.9963, Val Loss: 0.1243, Val Acc: 0.9662
+[momentum] Epoch 50, Train Loss: 0.0400, Train Acc: 0.9972, Val Loss: 0.1215, Val Acc: 0.9662
+[momentum] Epoch 60, Train Loss: 0.0345, Train Acc: 0.9981, Val Loss: 0.1196, Val Acc: 0.9634
+[momentum] Epoch 70, Train Loss: 0.0315, Train Acc: 1.0000, Val Loss: 0.1179, Val Acc: 0.9662
+[momentum] Epoch 80, Train Loss: 0.0292, Train Acc: 1.0000, Val Loss: 0.1171, Val Acc: 0.9690
+[momentum] Epoch 90, Train Loss: 0.0276, Train Acc: 1.0000, Val Loss: 0.1184, Val Acc: 0.9662
+[momentum] Epoch 100, Train Loss: 0.0263, Train Acc: 1.0000, Val Loss: 0.1174, Val Acc: 0.9690
+[momentum] Epoch 110, Train Loss: 0.0254, Train Acc: 1.0000, Val Loss: 0.1150, Val Acc: 0.9662
+[momentum] Epoch 120, Train Loss: 0.0247, Train Acc: 1.0000, Val Loss: 0.1180, Val Acc: 0.9634
+[momentum] Epoch 130, Train Loss: 0.0242, Train Acc: 1.0000, Val Loss: 0.1169, Val Acc: 0.9634
+[momentum] Epoch 140, Train Loss: 0.0238, Train Acc: 1.0000, Val Loss: 0.1173, Val Acc: 0.9662
+[momentum] Epoch 150, Train Loss: 0.0235, Train Acc: 1.0000, Val Loss: 0.1177, Val Acc: 0.9634
+[momentum] Epoch 160, Train Loss: 0.0232, Train Acc: 1.0000, Val Loss: 0.1154, Val Acc: 0.9662
+[momentum] Epoch 170, Train Loss: 0.0230, Train Acc: 1.0000, Val Loss: 0.1159, Val Acc: 0.9662
+[momentum] Epoch 180, Train Loss: 0.0228, Train Acc: 1.0000, Val Loss: 0.1167, Val Acc: 0.9662
+[momentum] Epoch 190, Train Loss: 0.0226, Train Acc: 1.0000, Val Loss: 0.1161, Val Acc: 0.9662
+momentum Best Epoch: 169
+Train - Loss: 0.0230, Acc: 1.0000
+Val   - Loss: 0.1148, Acc: 0.9662
+Test  - Loss: 0.1913, Acc: 0.9429
+
+===== Optimizer: adam =====
+[adam] Epoch 0, Train Loss: 2.2784, Train Acc: 0.5559, Val Loss: 2.2786, Val Acc: 0.5408
+[adam] Epoch 10, Train Loss: 0.8256, Train Acc: 0.8575, Val Loss: 0.8466, Val Acc: 0.8254
+[adam] Epoch 20, Train Loss: 0.3668, Train Acc: 0.9404, Val Loss: 0.3926, Val Acc: 0.9183
+[adam] Epoch 30, Train Loss: 0.2229, Train Acc: 0.9637, Val Loss: 0.2521, Val Acc: 0.9408
+[adam] Epoch 40, Train Loss: 0.1601, Train Acc: 0.9749, Val Loss: 0.1945, Val Acc: 0.9549
+[adam] Epoch 50, Train Loss: 0.1252, Train Acc: 0.9804, Val Loss: 0.1645, Val Acc: 0.9606
+[adam] Epoch 60, Train Loss: 0.1029, Train Acc: 0.9870, Val Loss: 0.1473, Val Acc: 0.9634
+[adam] Epoch 70, Train Loss: 0.0876, Train Acc: 0.9888, Val Loss: 0.1357, Val Acc: 0.9634
+[adam] Epoch 80, Train Loss: 0.0761, Train Acc: 0.9907, Val Loss: 0.1295, Val Acc: 0.9634
+[adam] Epoch 90, Train Loss: 0.0673, Train Acc: 0.9926, Val Loss: 0.1244, Val Acc: 0.9634
+[adam] Epoch 100, Train Loss: 0.0603, Train Acc: 0.9944, Val Loss: 0.1196, Val Acc: 0.9634
+[adam] Epoch 110, Train Loss: 0.0544, Train Acc: 0.9953, Val Loss: 0.1153, Val Acc: 0.9634
+[adam] Epoch 120, Train Loss: 0.0495, Train Acc: 0.9963, Val Loss: 0.1159, Val Acc: 0.9662
+[adam] Epoch 130, Train Loss: 0.0452, Train Acc: 0.9963, Val Loss: 0.1131, Val Acc: 0.9662
+[adam] Epoch 140, Train Loss: 0.0417, Train Acc: 0.9963, Val Loss: 0.1112, Val Acc: 0.9662
+[adam] Epoch 150, Train Loss: 0.0385, Train Acc: 0.9972, Val Loss: 0.1103, Val Acc: 0.9662
+[adam] Epoch 160, Train Loss: 0.0360, Train Acc: 0.9991, Val Loss: 0.1079, Val Acc: 0.9662
+[adam] Epoch 170, Train Loss: 0.0339, Train Acc: 0.9991, Val Loss: 0.1078, Val Acc: 0.9662
+[adam] Epoch 180, Train Loss: 0.0321, Train Acc: 0.9991, Val Loss: 0.1075, Val Acc: 0.9662
+[adam] Epoch 190, Train Loss: 0.0305, Train Acc: 0.9991, Val Loss: 0.1065, Val Acc: 0.9690
+adam Best Epoch: 192
+Train - Loss: 0.0303, Acc: 0.9991
+Val   - Loss: 0.1052, Acc: 0.9718
+Test  - Loss: 0.1769, Acc: 0.9538
+
+===== Summary =====
+sgd: Val Loss=0.1381, Val Acc=0.9606, Test Loss=0.2005, Test Acc=0.9375
+momentum: Val Loss=0.1148, Val Acc=0.9662, Test Loss=0.1913, Test Acc=0.9429
+adam: Val Loss=0.1052, Val Acc=0.9718, Test Loss=0.1769, Test Acc=0.9538
+
+Finished successfully.
+Saved log to: C:\Users\User\OneDrive\Documents\GitHub\Math4AI_Final_Project\starter_pack\scripts\results\logs\run_digits_optimizers_20260331_215301.log
