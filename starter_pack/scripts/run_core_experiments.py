@@ -1,5 +1,12 @@
 import os
+import sys
 import numpy as np
+
+# Add src to path
+CURRENT_DIR = os.path.dirname(__file__)
+SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
+if SRC_DIR not in sys.path:
+    sys.path.insert(0, SRC_DIR)
 
 from training_utils import labels_to_onehot
 from train_softmax import train_softmax, evaluate_softmax
@@ -9,7 +16,6 @@ from experiment_logger import run_with_logging
 # -------------------------
 # Paths
 # -------------------------
-CURRENT_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "data"))
 
 
