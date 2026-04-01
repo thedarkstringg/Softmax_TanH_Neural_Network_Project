@@ -8,6 +8,7 @@
 **A from-scratch NumPy implementation comparing Softmax Regression against Neural Networks**
 
 *Answering the core question: **When does a hidden layer genuinely help?***
+
 ---
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge)
@@ -21,6 +22,7 @@
 ![Documentation](https://img.shields.io/badge/Documentation-Complete-informational?style=for-the-badge)
 
 ---
+</div>
 
 
 ## Project Overview
