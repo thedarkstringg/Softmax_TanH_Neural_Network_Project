@@ -1,15 +1,27 @@
-# Math4AI Capstone: ML Classifiers from Scratch
+# Math4AI Final Capstone Project - Team Sigmoid
 
-A ground-up NumPy implementation comparing multiclass Softmax Regression with a single-hidden-layer Tanh Neural Network. This study evaluates the practical trade-off between model complexity and performance to determine exactly when a hidden layer adds value versus when it becomes redundant."
+<div align="center">
+
+<!-- ![AI Academy Logo](slides/ai-academy-logo.jpg) -->
+<!-- ![NAIC Logo](slides/naic-logo.webp) -->
+
+**A from-scratch NumPy implementation comparing Softmax Regression against Neural Networks**
+
+*Answering the core question: **When does a hidden layer genuinely help?***
+---
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge)
+![NumPy](https://img.shields.io/badge/NumPy-1.19%2B-orange?style=for-the-badge)
+![Implementation](https://img.shields.io/badge/From%20Scratch-100%25%20NumPy-red?style=for-the-badge)
+![License](https://img.shields.io/badge/License-Academic-lightgrey?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge)
+![ML Framework](https://img.shields.io/badge/ML%20Framework-None-blue?style=for-the-badge)
+![Tests](https://img.shields.io/badge/Tests-Passing-success?style=for-the-badge)
+![Reproducibility](https://img.shields.io/badge/Reproducibility-100%25-brightblue?style=for-the-badge)
+![Documentation](https://img.shields.io/badge/Documentation-Complete-informational?style=for-the-badge)
 
 ---
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![NumPy](https://img.shields.io/badge/NumPy-only-orange)
-![License](https://img.shields.io/badge/License-Academic-lightgrey)
-![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
-
----
 
 ## Project Overview
 

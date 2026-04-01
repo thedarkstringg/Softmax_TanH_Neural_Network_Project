@@ -1,5 +1,14 @@
 # Math4AI Starter Pack
 
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square)
+![NumPy](https://img.shields.io/badge/NumPy-Pure-orange?style=flat-square)
+![Reproducible](https://img.shields.io/badge/Reproducible-100%25-brightgreen?style=flat-square)
+![Tests](https://img.shields.io/badge/Tests-Passing-success?style=flat-square)
+
+</div>
+
 This starter pack is intentionally minimal. Its job is to remove setup noise, not to reduce the intellectual core of the capstone.
 
 ## Included
