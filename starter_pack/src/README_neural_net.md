@@ -1,1 +1,77 @@
-One-Hidden-Layer Neural Network (NumPy)A from-scratch implementation of a shallow neural network using NumPy. This model is designed for multi-class classification and introduces a non-linear hidden layer to capture complex patterns that standard softmax regression cannot.🚀 OverviewThe model follows a standard feed-forward architecture:Hidden Layer: Uses the tanh activation function.Output Layer: Uses the softmax function to produce a probability distribution.🛠 Core API Reference1. Forward Pass & PredictionFunctionDescriptioninitialize_nn(d, h, k)Initializes weights $W \sim \mathcal{N}(0, 0.01)$ and biases to zero.nn_forward(X, W1, b1, W2, b2)Computes hidden activations $H$ and class probabilities $P$.nn_predict(X, W1, b1, W2, b2)Converts probabilities into final class labels (indices).2. Training & LearningFunctionDescriptionnn_gradients(...)Computes gradients via backpropagation ($dW$, $db$).nn_loss(P, Y_onehot, W1, W2, lam)Calculates Cross-Entropy loss + L2 regularization.train_nn(...)The main loop: Shuffles data, runs forward/backward passes, and updates parameters.📐 Implementation DetailsActivation FunctionsThe hidden layer utilizes the Hyperbolic Tangent (tanh) function to introduce non-linearity:$$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$Loss FunctionTo prevent overfitting and ensure numerical stability, we use Cross-Entropy loss combined with L2 Regularization:$$J = \text{CrossEntropy} + \lambda (||W_1||^2 + ||W_2||^2)$$Backpropagation EquationsGradients are computed using the chain rule, moving from the output layer back to the input:Output Layer:$dS = \frac{P - Y}{n}$$dW_2 = dS^T H + 2\lambda W_2$$db_2 = \sum dS$Hidden Layer:$dZ_1 = (dS W_2) \odot (1 - H^2)$$dW_1 = dZ_1^T X + 2\lambda W_1$$db_1 = \sum dZ_1$🎯 When to Use This Model✅ Recommended for:Non-linear Data: Patterns that cannot be separated by a straight line (e.g., XOR problems).Moderate Complexity: When you need more power than Softmax but don't want the overhead of Deep Learning.Small to Medium Datasets: The simplicity of one layer helps prevent the overfitting often seen in deeper architectures.❌ Avoid if:Linear Separability: If the data is simple, Softmax Regression is faster and more interpretable.High-Dimensional Data: For images or audio, Deep Neural Networks (CNNs/RNNs) are significantly more effective.Interpretability: If you need to explain exactly why a decision was made, stick to linear models or decision trees.
+# One-Hidden-Layer Neural Network (NumPy)
+
+A from-scratch implementation of a shallow neural network using NumPy. This model is designed for **multi-class classification** and introduces a non-linear hidden layer to capture complex patterns that standard softmax regression cannot.
+
+## 🚀 Overview
+The model follows a standard feed-forward architecture:
+1. **Hidden Layer:** Uses the **tanh** activation function.
+2. **Output Layer:** Uses the **softmax** function to produce a probability distribution.
+
+---
+
+## 🛠 Core API Reference
+
+### 1. Initialization & Prediction
+| Function | Description |
+| :--- | :--- |
+| **initialize_nn(d, h, k)** | Initializes weights with small random values and biases to zero. |
+| **nn_forward(X, W1, b1, W2, b2)** | Performs the forward pass to get hidden activations (H) and probabilities (P). |
+| **nn_predict(X, W1, b1, W2, b2)** | Converts class probabilities into final predicted labels. |
+
+### 2. Training & Learning
+| Function | Description |
+| :--- | :--- |
+| **nn_gradients(...)** | **The Learning Mechanism:** Computes weight adjustments via backpropagation. |
+| **nn_loss(P, Y, W1, W2, lam)** | Measures error using Cross-Entropy and adds L2 regularization. |
+| **train_nn(...)** | The full training loop: Shuffles data, predicts, computes gradients, and updates weights. |
+
+---
+
+## 📐 Implementation Details
+
+### Activation & Loss
+* **Hidden Layer:** Uses `tanh(x) = (exp(x) - exp(-x)) / (exp(x) + exp(-x))`
+* **Total Loss:** `Loss = Cross-Entropy + lambda * (L2_norm_Weights)`
+    * *Cross-entropy* measures prediction error.
+    * *L2 regularization* prevents the model from overfitting by penalizing large weights.
+
+### Backpropagation Logic
+Gradients are calculated in two distinct stages:
+
+**Stage 1: Output Layer**
+* Error (dS) = (Predictions - Labels) / n
+* dW2 = dS_transpose * Hidden_Activations
+* db2 = sum(dS)
+
+**Stage 2: Hidden Layer**
+* dH = dS * W2
+* dZ1 = dH * (1 - Hidden_Activations^2)
+* dW1 = dZ1_transpose * X
+* db1 = sum(dZ1)
+
+---
+
+## 🎯 When to Use This Model
+
+### ✅ Recommended for:
+* **Non-linear Data:** Use when patterns cannot be separated by a straight line (e.g., XOR patterns).
+* **Moderate Complexity:** More powerful than linear regression, but simpler and faster than deep networks.
+* **Small to Medium Datasets:** Helps avoid the overfitting issues often found in deeper models.
+
+### ❌ Avoid if:
+* **Linear Separability:** If a simple line can separate your data, use Softmax Regression instead.
+* **Complex Data:** For high-res images or complex audio, consider Deep Neural Networks (CNNs/RNNs).
+* **Interpretability:** If you need to explain exactly "why" a feature triggered a result, linear models are easier to interpret.
+
+---
+
+## 💻 Quick Start
+```python
+# 1. Initialize the weights
+W1, b1, W2, b2 = initialize_nn(input_dim=784, hidden_dim=64, num_classes=10)
+
+# 2. Train the model
+W1, b1, W2, b2 = train_nn(X_train, Y_onehot, X_val, Y_val, d, h, k)
+
+# 3. Make predictions
+predictions = nn_predict(X_test, W1, b1, W2, b2)
