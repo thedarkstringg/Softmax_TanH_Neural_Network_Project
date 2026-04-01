@@ -255,30 +255,4 @@ python scripts/sanity_checks.py
 
 ---
 
-## Submission Checklist
-
-- ✅ All core ML code in `starter_pack/src/` (NumPy only)
-- ✅ Clean decision boundary plots in `starter_pack/figures/`
-- ✅ All runner scripts reproducible (`starter_pack/scripts/`)
-- ✅ Sanity checks validate numerical correctness
-- ✅ Team contributions documented
-- ✅ README documentation complete
-- ✅ Timestamped experiment logs cleaned
-
----
-
-## Capstone Learning Objectives
-
-✅ Implement softmax regression from scratch
-✅ Implement feedforward neural network from scratch
-✅ Derive and implement backpropagation analytically
-✅ Implement SGD with momentum and ADAM optimizers
-✅ Handle numerical stability (overflow, underflow, gradient checking)
-✅ Validate using finite-difference gradient checking
-✅ Compare models across datasets and architectures
-✅ Analyze confidence calibration and model behavior
-
----
-
-
-**Last Updated:** 1 April 2026 | **Implementation:** Complete | **Status:** Ready ✅
+**Last Updated:** 1 April 2026 | **Implementation:** Complete 
