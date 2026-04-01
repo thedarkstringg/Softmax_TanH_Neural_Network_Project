@@ -1,6 +1,13 @@
 # Math4AI Capstone: ML Classifiers from Scratch
 
-Complete implementation of machine learning classifiers built entirely from NumPy with rigorous mathematical validation and comprehensive experimental analysis.
+A ground-up NumPy implementation comparing multiclass Softmax Regression with a single-hidden-layer Tanh Neural Network. This study evaluates the practical trade-off between model complexity and performance to determine exactly when a hidden layer adds value versus when it becomes redundant."
+
+---
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![NumPy](https://img.shields.io/badge/NumPy-only-orange)
+![License](https://img.shields.io/badge/License-Academic-lightgrey)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 ---
 
