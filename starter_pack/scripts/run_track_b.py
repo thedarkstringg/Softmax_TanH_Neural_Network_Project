@@ -24,9 +24,9 @@ SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from training_utils import labels_to_onehot, accuracy_from_probs
-from train_softmax import train_softmax, evaluate_softmax
-from train_nn_runner import train_nn_runner, evaluate_nn
+from training_utils import DataUtils, MetricsCalculator
+from train_softmax import SoftmaxTrainer
+from train_nn_runner import NNTrainer
 from softmax import softmax_forward
 from neural_net import nn_forward
 
@@ -104,28 +104,31 @@ def compute_accuracy(predictions, y_true):
 def compute_binned_accuracy(confidence, predictions, y_true, num_bins=5):
     """
     Compute accuracy in bins of confidence
-    Returns: bin_centers, bin_accuracies, bin_counts
+    Returns: bin_centers, bin_accuracies, bin_counts, bin_avg_confidences
     """
     bins = np.linspace(0, 1, num_bins + 1)
     bin_centers = []
     bin_accuracies = []
     bin_counts = []
+    bin_avg_confidences = []
 
     for i in range(num_bins):
         mask = (confidence >= bins[i]) & (confidence < bins[i + 1])
-        
+
         if np.sum(mask) == 0:
             continue
 
         acc = np.mean(predictions[mask] == y_true[mask])
         center = (bins[i] + bins[i + 1]) / 2
         count = np.sum(mask)
+        avg_conf = np.mean(confidence[mask])
 
         bin_centers.append(center)
         bin_accuracies.append(acc)
         bin_counts.append(count)
+        bin_avg_confidences.append(avg_conf)
 
-    return np.array(bin_centers), np.array(bin_accuracies), np.array(bin_counts)
+    return np.array(bin_centers), np.array(bin_accuracies), np.array(bin_counts), np.array(bin_avg_confidences)
 
 
 # -------------------------
@@ -133,7 +136,7 @@ def compute_binned_accuracy(confidence, predictions, y_true, num_bins=5):
 # -------------------------
 def print_confidence_accuracy_table(model_name, confidence, predictions, y_true, num_bins=5):
     """Print confidence vs empirical accuracy table"""
-    bin_centers, bin_accs, bin_counts = compute_binned_accuracy(
+    bin_centers, bin_accs, bin_counts, bin_avg_confs = compute_binned_accuracy(
         confidence, predictions, y_true, num_bins=num_bins
     )
 
@@ -142,16 +145,16 @@ def print_confidence_accuracy_table(model_name, confidence, predictions, y_true,
     print(f"{'='*70}")
 
     table_data = []
-    for i, (center, acc, count) in enumerate(zip(bin_centers, bin_accs, bin_counts)):
+    for i, (center, acc, count, avg_conf) in enumerate(zip(bin_centers, bin_accs, bin_counts, bin_avg_confs)):
         table_data.append([
             f"Bin {i+1}",
             f"[{center-0.1:.2f}, {center+0.1:.2f}]",
-            f"{center:.2f}",
+            f"{int(count)}",
             f"{acc:.4f}",
-            f"{int(count)}"
+            f"{avg_conf:.4f}"
         ])
 
-    headers = ["Bin", "Confidence Range", "Center", "Accuracy", "Count"]
+    headers = ["Bin", "Confidence Range", "Count", "Accuracy", "Avg Confidence"]
     print(tabulate(table_data, headers=headers, tablefmt="grid"))
 
     overall_acc = np.mean(predictions == y_true)
@@ -161,11 +164,11 @@ def print_confidence_accuracy_table(model_name, confidence, predictions, y_true,
 def print_summary_statistics(model_name, predictions, y_true, confidence, entropy):
     """Print summary statistics for a model"""
     acc = compute_accuracy(predictions, y_true)
-    
+
     print(f"\n{'='*70}")
     print(f"{model_name}: Summary Statistics")
     print(f"{'='*70}")
-    
+
     stats = [
         ["Test Accuracy", f"{acc:.4f}"],
         ["Mean Confidence", f"{np.mean(confidence):.4f}"],
@@ -177,8 +180,42 @@ def print_summary_statistics(model_name, predictions, y_true, confidence, entrop
         ["Min Entropy", f"{np.min(entropy):.4f}"],
         ["Max Entropy", f"{np.max(entropy):.4f}"],
     ]
-    
+
     print(tabulate(stats, headers=["Metric", "Value"], tablefmt="grid"))
+
+    # Correct vs Incorrect breakdown
+    correct_mask = predictions == y_true
+    incorrect_mask = ~correct_mask
+
+    n_correct = np.sum(correct_mask)
+    n_incorrect = np.sum(incorrect_mask)
+
+    conf_correct = confidence[correct_mask]
+    conf_incorrect = confidence[incorrect_mask]
+    entropy_correct = entropy[correct_mask]
+    entropy_incorrect = entropy[incorrect_mask]
+
+    print(f"\n{'='*70}")
+    print(f"{model_name}: Correct vs Incorrect Predictions")
+    print(f"{'='*70}")
+
+    breakdown = [
+        ["Correct Predictions", f"{n_correct}",
+         f"{np.mean(conf_correct):.4f} ± {np.std(conf_correct):.4f}",
+         f"{np.mean(entropy_correct):.4f} ± {np.std(entropy_correct):.4f}"],
+        ["Incorrect Predictions", f"{n_incorrect}",
+         f"{np.mean(conf_incorrect):.4f} ± {np.std(conf_incorrect):.4f}",
+         f"{np.mean(entropy_incorrect):.4f} ± {np.std(entropy_incorrect):.4f}"],
+    ]
+
+    print(tabulate(breakdown, headers=["Prediction Type", "Count", "Mean Conf ± Std", "Mean Entropy ± Std"], tablefmt="grid"))
+
+    # Compute separation ratios
+    if n_incorrect > 0:
+        conf_ratio = np.mean(conf_correct) / np.mean(conf_incorrect) if np.mean(conf_incorrect) > 0 else float('inf')
+        entropy_ratio = np.mean(entropy_incorrect) / np.mean(entropy_correct) if np.mean(entropy_correct) > 0 else float('inf')
+        print(f"\nConfidence Separation: Correct {conf_ratio:.2f}× higher than incorrect")
+        print(f"Entropy Separation: Incorrect {entropy_ratio:.2f}× higher than correct")
 
 
 # -------------------------
@@ -194,7 +231,7 @@ def plot_reliability_diagram(
 
     # Softmax
     sm_conf, sm_pred, sm_y = softmax_data
-    sm_centers, sm_accs, _ = compute_binned_accuracy(sm_conf, sm_pred, sm_y, num_bins=5)
+    sm_centers, sm_accs, _, _ = compute_binned_accuracy(sm_conf, sm_pred, sm_y, num_bins=5)
     
     axes[0].plot(sm_centers, sm_accs, marker='o', linewidth=2, markersize=8, 
                  label='Softmax', color='steelblue')
@@ -211,7 +248,7 @@ def plot_reliability_diagram(
 
     # Neural Network
     nn_conf, nn_pred, nn_y = nn_data
-    nn_centers, nn_accs, _ = compute_binned_accuracy(nn_conf, nn_pred, nn_y, num_bins=5)
+    nn_centers, nn_accs, _, _ = compute_binned_accuracy(nn_conf, nn_pred, nn_y, num_bins=5)
     
     axes[1].plot(nn_centers, nn_accs, marker='s', linewidth=2, markersize=8,
                  label='Neural Network', color='coral')
@@ -230,7 +267,7 @@ def plot_reliability_diagram(
     path = os.path.join(FIGURES_DIR, "confidence_reliability_diagram.png")
     plt.savefig(path, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"\n✓ Saved: {path}")
+    print(f"\n[OK] Saved: {path}")
 
 
 def plot_confidence_entropy_comparison(softmax_data, nn_data, figsize=(14, 10)):
@@ -305,7 +342,7 @@ def plot_confidence_entropy_comparison(softmax_data, nn_data, figsize=(14, 10)):
     path = os.path.join(FIGURES_DIR, "confidence_entropy_comparison.png")
     plt.savefig(path, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"✓ Saved: {path}")
+    print(f"[OK] Saved: {path}")
 
 
 def plot_combined_reliability_curves(softmax_data, nn_data, figsize=(10, 7)):
@@ -315,8 +352,8 @@ def plot_combined_reliability_curves(softmax_data, nn_data, figsize=(10, 7)):
     sm_conf, sm_pred, sm_y = softmax_data
     nn_conf, nn_pred, nn_y = nn_data
 
-    sm_centers, sm_accs, _ = compute_binned_accuracy(sm_conf, sm_pred, sm_y, num_bins=5)
-    nn_centers, nn_accs, _ = compute_binned_accuracy(nn_conf, nn_pred, nn_y, num_bins=5)
+    sm_centers, sm_accs, _, _ = compute_binned_accuracy(sm_conf, sm_pred, sm_y, num_bins=5)
+    nn_centers, nn_accs, _, _ = compute_binned_accuracy(nn_conf, nn_pred, nn_y, num_bins=5)
 
     fig, ax = plt.subplots(figsize=figsize)
 
@@ -340,7 +377,7 @@ def plot_combined_reliability_curves(softmax_data, nn_data, figsize=(10, 7)):
     path = os.path.join(FIGURES_DIR, "combined_reliability_curves.png")
     plt.savefig(path, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"✓ Saved: {path}")
+    print(f"[OK] Saved: {path}")
 
 
 # -------------------------
@@ -395,42 +432,40 @@ def main():
     k = len(np.unique(y_train))
     n_test = len(y_test)
     
-    print(f"✓ Loaded: {len(y_train)} train, {len(y_val)} val, {n_test} test samples")
+    print(f"[OK] Loaded: {len(y_train)} train, {len(y_val)} val, {n_test} test samples")
     print(f"  Features: {d}, Classes: {k}")
 
-    Y_train = labels_to_onehot(y_train, k)
-    Y_val = labels_to_onehot(y_val, k)
-    Y_test = labels_to_onehot(y_test, k)
+    Y_train = DataUtils.labels_to_onehot(y_train, k)
+    Y_val = DataUtils.labels_to_onehot(y_val, k)
+    Y_test = DataUtils.labels_to_onehot(y_test, k)
 
     # Train Softmax
     print("\n[2/5] Training Softmax (linear model)...")
-    W_sm, b_sm, _, _ = train_softmax(
+    softmax_trainer = SoftmaxTrainer(d, k, seed=0)
+    W_sm, b_sm, _, _ = softmax_trainer.train(
         X_train, Y_train, y_train,
         X_val, Y_val, y_val,
-        d, k,
         epochs=200,
         lr=0.05,
         batch_size=64,
         lam=1e-4,
-        seed=0,
         checkpoint_on_val=True,
     )
-    print("✓ Softmax training complete")
+    print("[OK] Softmax training complete")
 
     # Train Neural Network
     print("\n[3/5] Training Neural Network (nonlinear model)...")
-    W1, b1, W2, b2, _, _ = train_nn_runner(
+    nn_trainer = NNTrainer(d, 32, k, seed=0)
+    W1, b1, W2, b2, _, _ = nn_trainer.train(
         X_train, Y_train,
         X_val, Y_val,
-        d, 32, k,
         epochs=200,
         lr=0.05,
         batch_size=64,
         lam=1e-4,
-        seed=0,
         checkpoint_on_val=True,
     )
-    print("✓ Neural Network training complete")
+    print("[OK] Neural Network training complete")
 
     # Softmax predictions and metrics
     print("\n[4/5] Computing predictions and confidence metrics...")
@@ -445,7 +480,7 @@ def main():
     nn_entropy = compute_predictive_entropy(P_nn)
     nn_pred = compute_predictions(P_nn)
 
-    print("✓ Computed confidence, entropy, and predictions for both models")
+    print("[OK] Computed confidence, entropy, and predictions for both models")
 
     # Print tables
     print_confidence_accuracy_table("Softmax", sm_conf, sm_pred, y_test, num_bins=5)
@@ -473,7 +508,7 @@ def main():
     print_interpretation(softmax_reliability, nn_reliability)
 
     print(f"\n{'='*70}")
-    print("✓ Track B Analysis Complete!")
+    print("[OK] Track B Analysis Complete!")
     print(f"{'='*70}\n")
 
     return {

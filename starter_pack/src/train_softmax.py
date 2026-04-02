@@ -1,116 +1,96 @@
 import numpy as np
 
-from softmax import (
-    softmax_forward,
-    softmax_gradients,
-    cross_entropy_loss,
-    l2_regularization_loss,
-    l2_regularization_grad,
-    accuracy,
-)
-
-from training_utils import make_minibatches
+from softmax import SoftmaxLayer, LossMetrics
+from training_utils import DataUtils
 
 
-# -------------------------
-# Initialization
-# -------------------------
-def initialize_softmax(d, k, seed=0):
-    rng = np.random.default_rng(seed)
+class SoftmaxTrainer:
+    """Trainer for softmax regression model."""
 
-    W = 0.01 * rng.standard_normal((k, d))
-    b = np.zeros(k)
+    def __init__(self, input_dim, num_classes, seed=0):
+        """
+        Initialize softmax trainer.
 
-    return W, b
+        Args:
+            input_dim: Input feature dimension (d)
+            num_classes: Number of classes (k)
+            seed: Random seed
+        """
+        self.model = SoftmaxLayer(input_dim, num_classes, seed=seed)
+        self.seed = seed
 
+    def evaluate(self, X, Y_onehot, y, lam):
+        """Evaluate model on data."""
+        P = self.model.forward(X)
+        data_loss = LossMetrics.cross_entropy_loss(P, Y_onehot)
+        reg_loss = self.model.l2_loss(lam)
+        loss = data_loss + reg_loss
+        acc = LossMetrics.accuracy(P, y)
+        return loss, acc
 
-# -------------------------
-# Loss
-# -------------------------
-def softmax_loss(P, Y_onehot, W, lam):
-    data_loss = cross_entropy_loss(P, Y_onehot)
-    reg_loss = l2_regularization_loss(W, lam)
-    return data_loss + reg_loss
+    def train(
+        self,
+        X_train, Y_train_onehot, y_train,
+        X_val, Y_val_onehot, y_val,
+        epochs=100,
+        lr=0.05,
+        batch_size=64,
+        lam=1e-4,
+        checkpoint_on_val=False,
+    ):
+        """
+        Train softmax model.
 
+        Returns:
+            W, b, history, best_epoch
+        """
+        history = {
+            "train_loss": [],
+            "train_acc": [],
+            "val_loss": [],
+            "val_acc": [],
+        }
 
-# -------------------------
-# Evaluation
-# -------------------------
-def evaluate_softmax(X, Y_onehot, y, W, b, lam):
-    P = softmax_forward(X, W, b)
-    loss = softmax_loss(P, Y_onehot, W, lam)
-    acc = accuracy(P, y)
-    return loss, acc
+        best = {
+            "val_loss": np.inf,
+            "W": self.model.W.copy(),
+            "b": self.model.b.copy(),
+            "epoch": 0,
+        }
 
+        for epoch in range(epochs):
+            for X_batch, Y_batch in DataUtils.make_minibatches(
+                X_train, Y_train_onehot, batch_size=batch_size, shuffle=True, seed=self.seed + epoch
+            ):
+                P_batch = self.model.forward(X_batch)
+                dW, db = self.model.backward(X_batch, P_batch, Y_batch)
+                dW += self.model.l2_grad(lam)
+                self.model.update_weights(dW, db, lr)
 
-# -------------------------
-# Training
-# -------------------------
-def train_softmax(
-    X_train, Y_train_onehot, y_train,
-    X_val, Y_val_onehot, y_val,
-    d, k,
-    epochs=100,
-    lr=0.05,
-    batch_size=64,
-    lam=1e-4,
-    seed=0,
-    checkpoint_on_val=False,
-):
-    W, b = initialize_softmax(d, k, seed=seed)
+            train_loss, train_acc = self.evaluate(X_train, Y_train_onehot, y_train, lam)
+            val_loss, val_acc = self.evaluate(X_val, Y_val_onehot, y_val, lam)
 
-    history = {
-        "train_loss": [],
-        "train_acc": [],
-        "val_loss": [],
-        "val_acc": [],
-    }
+            history["train_loss"].append(train_loss)
+            history["train_acc"].append(train_acc)
+            history["val_loss"].append(val_loss)
+            history["val_acc"].append(val_acc)
 
-    best = {
-        "val_loss": np.inf,
-        "W": W.copy(),
-        "b": b.copy(),
-        "epoch": 0,
-    }
+            if checkpoint_on_val and val_loss < best["val_loss"]:
+                best["val_loss"] = val_loss
+                best["W"] = self.model.W.copy()
+                best["b"] = self.model.b.copy()
+                best["epoch"] = epoch
 
-    for epoch in range(epochs):
-        for X_batch, Y_batch in make_minibatches(
-            X_train, Y_train_onehot, batch_size=batch_size, shuffle=True, seed=seed + epoch
-        ):
-            P_batch = softmax_forward(X_batch, W, b)
+            if epoch % 10 == 0:
+                print(
+                    f"Epoch {epoch}, "
+                    f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}, "
+                    f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}"
+                )
 
-            dW, db = softmax_gradients(X_batch, P_batch, Y_batch)
-            dW += l2_regularization_grad(W, lam)
+        if checkpoint_on_val:
+            self.model.W = best["W"]
+            self.model.b = best["b"]
+            return self.model.W, self.model.b, history, best["epoch"]
 
-            W -= lr * dW
-            b -= lr * db
-
-        train_loss, train_acc = evaluate_softmax(
-            X_train, Y_train_onehot, y_train, W, b, lam
-        )
-        val_loss, val_acc = evaluate_softmax(
-            X_val, Y_val_onehot, y_val, W, b, lam
-        )
-
-        history["train_loss"].append(train_loss)
-        history["train_acc"].append(train_acc)
-        history["val_loss"].append(val_loss)
-        history["val_acc"].append(val_acc)
-
-        if checkpoint_on_val and val_loss < best["val_loss"]:
-            best["val_loss"] = val_loss
-            best["W"] = W.copy()
-            best["b"] = b.copy()
-            best["epoch"] = epoch
-
-        if epoch % 10 == 0:
-            print(
-                f"Epoch {epoch}, "
-                f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}, "
-                f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}"
-            )
-
-    if checkpoint_on_val:
-        return best["W"], best["b"], history, best["epoch"]
-
-    return W, b, history, None
+        return self.model.W, self.model.b, history, None

@@ -15,8 +15,8 @@ SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from training_utils import labels_to_onehot
-from train_nn_runner import train_nn_runner, evaluate_nn
+from training_utils import DataUtils
+from train_nn_runner import NNTrainer
 from neural_net import nn_forward
 from plot_decision_boundaries import plot_decision_boundary
 
@@ -58,25 +58,25 @@ def analyze_capacity(X_train, y_train, X_val, y_val, X_test, y_test):
     k = len(np.unique(y_train))
     d = X_train.shape[1]
     
-    Y_train = labels_to_onehot(y_train, k)
-    Y_val = labels_to_onehot(y_val, k)
-    Y_test = labels_to_onehot(y_test, k)
+    Y_train = DataUtils.labels_to_onehot(y_train, k)
+    Y_val = DataUtils.labels_to_onehot(y_val, k)
+    Y_test = DataUtils.labels_to_onehot(y_test, k)
     
     # Train h=2
     print("\n--- Training h=2 (narrow, likely to fail) ---")
-    W1_narrow, b1_narrow, W2_narrow, b2_narrow, history_narrow, _ = train_nn_runner(
+    trainer_narrow = NNTrainer(d, 2, k, seed=0)
+    W1_narrow, b1_narrow, W2_narrow, b2_narrow, history_narrow, _ = trainer_narrow.train(
         X_train, Y_train, X_val, Y_val,
-        d, 2, k,
-        epochs=500, lr=0.1, batch_size=64, lam=1e-4, seed=0,
+        epochs=500, lr=0.1, batch_size=64, lam=1e-4,
         checkpoint_on_val=False
     )
-    
+
     # Train h=32
     print("\n--- Training h=32 (wide, should succeed) ---")
-    W1_wide, b1_wide, W2_wide, b2_wide, history_wide, _ = train_nn_runner(
+    trainer_wide = NNTrainer(d, 32, k, seed=0)
+    W1_wide, b1_wide, W2_wide, b2_wide, history_wide, _ = trainer_wide.train(
         X_train, Y_train, X_val, Y_val,
-        d, 32, k,
-        epochs=500, lr=0.1, batch_size=64, lam=1e-4, seed=0,
+        epochs=500, lr=0.1, batch_size=64, lam=1e-4,
         checkpoint_on_val=False
     )
     

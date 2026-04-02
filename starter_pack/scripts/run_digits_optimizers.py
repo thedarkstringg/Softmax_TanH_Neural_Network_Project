@@ -8,10 +8,10 @@ SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from training_utils import labels_to_onehot, accuracy_from_probs
+from training_utils import DataUtils, MetricsCalculator
 from neural_net import nn_forward, nn_gradients, nn_loss, initialize_nn
 from optimizers import sgd_update, momentum_update, adam_update
-from experiment_logger import run_with_logging
+from experiment_logger import ExperimentLogger
 
 # -------------------------
 # Paths
@@ -48,20 +48,8 @@ def load_digits_dataset():
     return X_train, y_train, X_val, y_val, X_test, y_test
 
 
-# -------------------------
-# Mini-batches
-# -------------------------
-def make_minibatches(X, Y, batch_size=64, shuffle=True, seed=None):
-    if shuffle:
-        rng = np.random.default_rng(seed)
-        idx = np.arange(X.shape[0])
-        rng.shuffle(idx)
-        X = X[idx]
-        Y = Y[idx]
-
-    for i in range(0, X.shape[0], batch_size):
-        yield X[i:i + batch_size], Y[i:i + batch_size]
-
+def accuracy_from_probs(P, Y_onehot):
+    return MetricsCalculator.accuracy_from_probs(P, Y_onehot)
 
 # -------------------------
 # Evaluation
@@ -124,7 +112,7 @@ def train_nn_with_optimizer(
     t = 0
 
     for epoch in range(epochs):
-        for X_batch, Y_batch in make_minibatches(
+        for X_batch, Y_batch in DataUtils.make_minibatches(
             X_train, Y_train, batch_size=batch_size, shuffle=True, seed=seed + epoch
         ):
             H_batch, P_batch = nn_forward(X_batch, W1, b1, W2, b2)
@@ -186,9 +174,9 @@ def main():
     k = len(np.unique(y_train))
     d = X_train.shape[1]
 
-    Y_train = labels_to_onehot(y_train, k)
-    Y_val = labels_to_onehot(y_val, k)
-    Y_test = labels_to_onehot(y_test, k)
+    Y_train = DataUtils.labels_to_onehot(y_train, k)
+    Y_val = DataUtils.labels_to_onehot(y_val, k)
+    Y_test = DataUtils.labels_to_onehot(y_test, k)
 
     configs = [
         {"name": "sgd", "lr": 0.05},
@@ -246,4 +234,5 @@ def main():
 
 
 if __name__ == "__main__":
-    run_with_logging(main, CURRENT_DIR, "run_digits_optimizers")
+    logger = ExperimentLogger(CURRENT_DIR, "run_digits_optimizers")
+    logger.run(main)

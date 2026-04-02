@@ -8,10 +8,10 @@ SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from training_utils import labels_to_onehot
-from train_softmax import train_softmax, evaluate_softmax
-from train_nn_runner import train_nn_runner, evaluate_nn
-from experiment_logger import run_with_logging
+from training_utils import DataUtils
+from train_softmax import SoftmaxTrainer
+from train_nn_runner import NNTrainer
+from experiment_logger import ExperimentLogger
 
 # -------------------------
 # Paths
@@ -83,47 +83,45 @@ def run_dataset_experiment(
     d = X_train.shape[1]
     k = len(np.unique(y_train))
 
-    Y_train = labels_to_onehot(y_train, k)
-    Y_val = labels_to_onehot(y_val, k)
-    Y_test = labels_to_onehot(y_test, k)
+    Y_train = DataUtils.labels_to_onehot(y_train, k)
+    Y_val = DataUtils.labels_to_onehot(y_val, k)
+    Y_test = DataUtils.labels_to_onehot(y_test, k)
 
     print(f"\n===== {name}: Softmax =====")
-    W, b, softmax_history, softmax_best_epoch = train_softmax(
+    softmax_trainer = SoftmaxTrainer(d, k, seed=seed)
+    W, b, softmax_history, softmax_best_epoch = softmax_trainer.train(
         X_train, Y_train, y_train,
         X_val, Y_val, y_val,
-        d, k,
         epochs=softmax_epochs,
         lr=softmax_lr,
         batch_size=batch_size,
         lam=lam,
-        seed=seed,
         checkpoint_on_val=checkpoint_on_val,
     )
 
-    train_loss_sm, train_acc_sm = evaluate_softmax(X_train, Y_train, y_train, W, b, lam)
-    val_loss_sm, val_acc_sm = evaluate_softmax(X_val, Y_val, y_val, W, b, lam)
-    test_loss_sm, test_acc_sm = evaluate_softmax(X_test, Y_test, y_test, W, b, lam)
+    train_loss_sm, train_acc_sm = softmax_trainer.evaluate(X_train, Y_train, y_train, lam)
+    val_loss_sm, val_acc_sm = softmax_trainer.evaluate(X_val, Y_val, y_val, lam)
+    test_loss_sm, test_acc_sm = softmax_trainer.evaluate(X_test, Y_test, y_test, lam)
 
     print(f"Softmax Train  - Loss: {train_loss_sm:.4f}, Acc: {train_acc_sm:.4f}")
     print(f"Softmax Val    - Loss: {val_loss_sm:.4f}, Acc: {val_acc_sm:.4f}")
     print(f"Softmax Test   - Loss: {test_loss_sm:.4f}, Acc: {test_acc_sm:.4f}")
 
     print(f"\n===== {name}: Neural Net =====")
-    W1, b1, W2, b2, nn_history, nn_best_epoch = train_nn_runner(
+    nn_trainer = NNTrainer(d, nn_hidden, k, seed=seed)
+    W1, b1, W2, b2, nn_history, nn_best_epoch = nn_trainer.train(
         X_train, Y_train,
         X_val, Y_val,
-        d, nn_hidden, k,
         epochs=nn_epochs,
         lr=nn_lr,
         batch_size=batch_size,
         lam=lam,
-        seed=seed,
         checkpoint_on_val=checkpoint_on_val,
     )
 
-    train_loss_nn, train_acc_nn = evaluate_nn(X_train, Y_train, W1, b1, W2, b2, lam)
-    val_loss_nn, val_acc_nn = evaluate_nn(X_val, Y_val, W1, b1, W2, b2, lam)
-    test_loss_nn, test_acc_nn = evaluate_nn(X_test, Y_test, W1, b1, W2, b2, lam)
+    train_loss_nn, train_acc_nn = nn_trainer.evaluate(X_train, Y_train, lam)
+    val_loss_nn, val_acc_nn = nn_trainer.evaluate(X_val, Y_val, lam)
+    test_loss_nn, test_acc_nn = nn_trainer.evaluate(X_test, Y_test, lam)
 
     print(f"NN Train       - Loss: {train_loss_nn:.4f}, Acc: {train_acc_nn:.4f}")
     print(f"NN Val         - Loss: {val_loss_nn:.4f}, Acc: {val_acc_nn:.4f}")
@@ -218,4 +216,5 @@ def main():
 
 
 if __name__ == "__main__":
-    run_with_logging(main, CURRENT_DIR, "run_core_experiments")
+    logger = ExperimentLogger(CURRENT_DIR, "run_core_experiments")
+    logger.run(main)

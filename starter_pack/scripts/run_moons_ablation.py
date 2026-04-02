@@ -9,9 +9,9 @@ SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from training_utils import labels_to_onehot
-from train_nn_runner import train_nn_runner, evaluate_nn
-from experiment_logger import run_with_logging
+from training_utils import DataUtils
+from train_nn_runner import NNTrainer
+from experiment_logger import ExperimentLogger
 from plot_decision_boundaries import plot_decision_boundary, predict_class
 
 # -------------------------
@@ -100,9 +100,9 @@ def main():
     k = len(np.unique(y_train))
     d = X_train.shape[1]
 
-    Y_train = labels_to_onehot(y_train, k)
-    Y_val = labels_to_onehot(y_val, k)
-    Y_test = labels_to_onehot(y_test, k)
+    Y_train = DataUtils.labels_to_onehot(y_train, k)
+    Y_val = DataUtils.labels_to_onehot(y_val, k)
+    Y_test = DataUtils.labels_to_onehot(y_test, k)
 
     widths = [2, 8, 32]
     results = []
@@ -110,21 +110,20 @@ def main():
     for h in widths:
         print(f"\n===== Moons Width Ablation: h = {h} =====")
 
-        W1, b1, W2, b2, history, _ = train_nn_runner(
+        trainer = NNTrainer(d, h, k, seed=0)
+        W1, b1, W2, b2, history, _ = trainer.train(
             X_train, Y_train,
             X_val, Y_val,
-            d, h, k,
             epochs=500,
             lr=0.1,
             batch_size=64,
             lam=1e-4,
-            seed=0,
             checkpoint_on_val=False,
         )
 
-        train_loss, train_acc = evaluate_nn(X_train, Y_train, W1, b1, W2, b2, 1e-4)
-        val_loss, val_acc = evaluate_nn(X_val, Y_val, W1, b1, W2, b2, 1e-4)
-        test_loss, test_acc = evaluate_nn(X_test, Y_test, W1, b1, W2, b2, 1e-4)
+        train_loss, train_acc = trainer.evaluate(X_train, Y_train, 1e-4)
+        val_loss, val_acc = trainer.evaluate(X_val, Y_val, 1e-4)
+        test_loss, test_acc = trainer.evaluate(X_test, Y_test, 1e-4)
 
         print(f"Train - Loss: {train_loss:.4f}, Acc: {train_acc:.4f}")
         print(f"Val   - Loss: {val_loss:.4f}, Acc: {val_acc:.4f}")
@@ -189,4 +188,5 @@ def main():
 
 
 if __name__ == "__main__":
-    run_with_logging(main, CURRENT_DIR, "run_moons_ablation")
+    logger = ExperimentLogger(CURRENT_DIR, "run_moons_ablation")
+    logger.run(main)

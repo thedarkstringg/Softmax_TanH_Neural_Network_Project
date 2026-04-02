@@ -1,0 +1,114 @@
+Log file: C:\Users\fgmz2\OneDrive\Documents\GitHub\Math4AI_Final_Project\starter_pack\scripts\results\logs\run_core_experiments_20260402_153833.log
+
+===== Linear Gaussian: Softmax =====
+Epoch 0, Train Loss: 0.5600, Train Acc: 0.9167, Val Loss: 0.5496, Val Acc: 0.9250
+Epoch 10, Train Loss: 0.2847, Train Acc: 0.9125, Val Loss: 0.2660, Val Acc: 0.9250
+Epoch 20, Train Loss: 0.2450, Train Acc: 0.9125, Val Loss: 0.2284, Val Acc: 0.9250
+Epoch 30, Train Loss: 0.2302, Train Acc: 0.9125, Val Loss: 0.2148, Val Acc: 0.9250
+Epoch 40, Train Loss: 0.2227, Train Acc: 0.9125, Val Loss: 0.2085, Val Acc: 0.9250
+Epoch 50, Train Loss: 0.2185, Train Acc: 0.9125, Val Loss: 0.2051, Val Acc: 0.9250
+Epoch 60, Train Loss: 0.2158, Train Acc: 0.9125, Val Loss: 0.2030, Val Acc: 0.9250
+Epoch 70, Train Loss: 0.2141, Train Acc: 0.9125, Val Loss: 0.2017, Val Acc: 0.9250
+Epoch 80, Train Loss: 0.2129, Train Acc: 0.9125, Val Loss: 0.2010, Val Acc: 0.9250
+Epoch 90, Train Loss: 0.2120, Train Acc: 0.9125, Val Loss: 0.2006, Val Acc: 0.9250
+Softmax Train  - Loss: 0.2114, Acc: 0.9125
+Softmax Val    - Loss: 0.2005, Acc: 0.9250
+Softmax Test   - Loss: 0.1555, Acc: 0.9500
+
+===== Linear Gaussian: Neural Net =====
+Epoch 0, Train Loss: 0.4691, Train Acc: 0.9000, Val Loss: 0.4605, Val Acc: 0.9250
+Epoch 10, Train Loss: 0.2357, Train Acc: 0.9125, Val Loss: 0.2194, Val Acc: 0.9250
+Epoch 20, Train Loss: 0.2178, Train Acc: 0.9125, Val Loss: 0.2017, Val Acc: 0.9250
+Epoch 30, Train Loss: 0.2135, Train Acc: 0.9125, Val Loss: 0.1978, Val Acc: 0.9250
+Epoch 40, Train Loss: 0.2122, Train Acc: 0.9125, Val Loss: 0.1969, Val Acc: 0.9250
+Epoch 50, Train Loss: 0.2117, Train Acc: 0.9125, Val Loss: 0.1970, Val Acc: 0.9250
+Epoch 60, Train Loss: 0.2115, Train Acc: 0.9125, Val Loss: 0.1964, Val Acc: 0.9250
+Epoch 70, Train Loss: 0.2114, Train Acc: 0.9125, Val Loss: 0.1964, Val Acc: 0.9250
+Epoch 80, Train Loss: 0.2113, Train Acc: 0.9125, Val Loss: 0.1965, Val Acc: 0.9250
+Epoch 90, Train Loss: 0.2113, Train Acc: 0.9125, Val Loss: 0.1968, Val Acc: 0.9250
+NN Train       - Loss: 0.2113, Acc: 0.9125
+NN Val         - Loss: 0.1972, Acc: 0.9250
+NN Test        - Loss: 0.1539, Acc: 0.9500
+
+===== Moons: Softmax =====
+Epoch 0, Train Loss: 0.6567, Train Acc: 0.7833, Val Loss: 0.6517, Val Acc: 0.8125
+Epoch 10, Train Loss: 0.4816, Train Acc: 0.8167, Val Loss: 0.4469, Val Acc: 0.8500
+Epoch 20, Train Loss: 0.4193, Train Acc: 0.8208, Val Loss: 0.3701, Val Acc: 0.8625
+Epoch 30, Train Loss: 0.3875, Train Acc: 0.8375, Val Loss: 0.3299, Val Acc: 0.8625
+Epoch 40, Train Loss: 0.3682, Train Acc: 0.8375, Val Loss: 0.3053, Val Acc: 0.8625
+Epoch 50, Train Loss: 0.3550, Train Acc: 0.8375, Val Loss: 0.2886, Val Acc: 0.8625
+Epoch 60, Train Loss: 0.3453, Train Acc: 0.8417, Val Loss: 0.2764, Val Acc: 0.8625
+Epoch 70, Train Loss: 0.3377, Train Acc: 0.8417, Val Loss: 0.2670, Val Acc: 0.8750
+Epoch 80, Train Loss: 0.3317, Train Acc: 0.8458, Val Loss: 0.2597, Val Acc: 0.8750
+Epoch 90, Train Loss: 0.3268, Train Acc: 0.8500, Val Loss: 0.2538, Val Acc: 0.8750
+Softmax Train  - Loss: 0.3230, Acc: 0.8542
+Softmax Val    - Loss: 0.2493, Acc: 0.8750
+Softmax Test   - Loss: 0.3112, Acc: 0.8375
+
+===== Moons: Neural Net =====
+Epoch 0, Train Loss: 0.6575, Train Acc: 0.6917, Val Loss: 0.6569, Val Acc: 0.6625
+Epoch 10, Train Loss: 0.4395, Train Acc: 0.8083, Val Loss: 0.3954, Val Acc: 0.8500
+Epoch 20, Train Loss: 0.3712, Train Acc: 0.8333, Val Loss: 0.3080, Val Acc: 0.8625
+Epoch 30, Train Loss: 0.3396, Train Acc: 0.8417, Val Loss: 0.2690, Val Acc: 0.8625
+Epoch 40, Train Loss: 0.3223, Train Acc: 0.8542, Val Loss: 0.2484, Val Acc: 0.8750
+Epoch 50, Train Loss: 0.3121, Train Acc: 0.8708, Val Loss: 0.2370, Val Acc: 0.8875
+Epoch 60, Train Loss: 0.3059, Train Acc: 0.8625, Val Loss: 0.2298, Val Acc: 0.8750
+Epoch 70, Train Loss: 0.3021, Train Acc: 0.8625, Val Loss: 0.2254, Val Acc: 0.8750
+Epoch 80, Train Loss: 0.2999, Train Acc: 0.8625, Val Loss: 0.2226, Val Acc: 0.8750
+Epoch 90, Train Loss: 0.2985, Train Acc: 0.8625, Val Loss: 0.2209, Val Acc: 0.8750
+NN Train       - Loss: 0.2977, Acc: 0.8625
+NN Val         - Loss: 0.2196, Acc: 0.8750
+NN Test        - Loss: 0.2755, Acc: 0.8500
+
+===== Digits: Softmax =====
+Epoch 0, Train Loss: 2.1455, Train Acc: 0.7821, Val Loss: 2.1435, Val Acc: 0.7634
+Epoch 10, Train Loss: 1.1661, Train Acc: 0.9106, Val Loss: 1.1546, Val Acc: 0.8930
+Epoch 20, Train Loss: 0.7907, Train Acc: 0.9292, Val Loss: 0.7774, Val Acc: 0.9127
+Epoch 30, Train Loss: 0.6135, Train Acc: 0.9348, Val Loss: 0.6013, Val Acc: 0.9155
+Epoch 40, Train Loss: 0.5121, Train Acc: 0.9358, Val Loss: 0.5017, Val Acc: 0.9211
+Epoch 50, Train Loss: 0.4465, Train Acc: 0.9404, Val Loss: 0.4377, Val Acc: 0.9239
+Epoch 60, Train Loss: 0.4002, Train Acc: 0.9413, Val Loss: 0.3930, Val Acc: 0.9296
+Epoch 70, Train Loss: 0.3656, Train Acc: 0.9432, Val Loss: 0.3602, Val Acc: 0.9352
+Epoch 80, Train Loss: 0.3387, Train Acc: 0.9460, Val Loss: 0.3348, Val Acc: 0.9352
+Epoch 90, Train Loss: 0.3171, Train Acc: 0.9497, Val Loss: 0.3146, Val Acc: 0.9352
+Epoch 100, Train Loss: 0.2992, Train Acc: 0.9525, Val Loss: 0.2979, Val Acc: 0.9437
+Epoch 110, Train Loss: 0.2842, Train Acc: 0.9544, Val Loss: 0.2841, Val Acc: 0.9493
+Epoch 120, Train Loss: 0.2714, Train Acc: 0.9581, Val Loss: 0.2725, Val Acc: 0.9465
+Epoch 130, Train Loss: 0.2602, Train Acc: 0.9590, Val Loss: 0.2625, Val Acc: 0.9465
+Epoch 140, Train Loss: 0.2505, Train Acc: 0.9600, Val Loss: 0.2537, Val Acc: 0.9493
+Epoch 150, Train Loss: 0.2419, Train Acc: 0.9600, Val Loss: 0.2461, Val Acc: 0.9493
+Epoch 160, Train Loss: 0.2342, Train Acc: 0.9618, Val Loss: 0.2394, Val Acc: 0.9493
+Epoch 170, Train Loss: 0.2273, Train Acc: 0.9628, Val Loss: 0.2333, Val Acc: 0.9493
+Epoch 180, Train Loss: 0.2210, Train Acc: 0.9646, Val Loss: 0.2280, Val Acc: 0.9521
+Epoch 190, Train Loss: 0.2153, Train Acc: 0.9646, Val Loss: 0.2231, Val Acc: 0.9493
+Softmax Train  - Loss: 0.2106, Acc: 0.9646
+Softmax Val    - Loss: 0.2191, Acc: 0.9493
+Softmax Test   - Loss: 0.2776, Acc: 0.9402
+
+===== Digits: Neural Net =====
+Epoch 0, Train Loss: 2.1388, Train Acc: 0.4032, Val Loss: 2.1400, Val Acc: 0.4028
+Epoch 10, Train Loss: 0.9294, Train Acc: 0.8818, Val Loss: 0.9297, Val Acc: 0.8563
+Epoch 20, Train Loss: 0.4925, Train Acc: 0.9376, Val Loss: 0.4969, Val Acc: 0.9239
+Epoch 30, Train Loss: 0.3338, Train Acc: 0.9488, Val Loss: 0.3410, Val Acc: 0.9521
+Epoch 40, Train Loss: 0.2580, Train Acc: 0.9572, Val Loss: 0.2675, Val Acc: 0.9521
+Epoch 50, Train Loss: 0.2141, Train Acc: 0.9655, Val Loss: 0.2260, Val Acc: 0.9549
+Epoch 60, Train Loss: 0.1853, Train Acc: 0.9739, Val Loss: 0.1999, Val Acc: 0.9606
+Epoch 70, Train Loss: 0.1645, Train Acc: 0.9758, Val Loss: 0.1826, Val Acc: 0.9606
+Epoch 80, Train Loss: 0.1488, Train Acc: 0.9749, Val Loss: 0.1698, Val Acc: 0.9606
+Epoch 90, Train Loss: 0.1366, Train Acc: 0.9795, Val Loss: 0.1605, Val Acc: 0.9606
+Epoch 100, Train Loss: 0.1264, Train Acc: 0.9832, Val Loss: 0.1530, Val Acc: 0.9662
+Epoch 110, Train Loss: 0.1180, Train Acc: 0.9851, Val Loss: 0.1478, Val Acc: 0.9662
+Epoch 120, Train Loss: 0.1107, Train Acc: 0.9851, Val Loss: 0.1430, Val Acc: 0.9662
+Epoch 130, Train Loss: 0.1044, Train Acc: 0.9870, Val Loss: 0.1391, Val Acc: 0.9662
+Epoch 140, Train Loss: 0.0989, Train Acc: 0.9879, Val Loss: 0.1364, Val Acc: 0.9718
+Epoch 150, Train Loss: 0.0941, Train Acc: 0.9879, Val Loss: 0.1333, Val Acc: 0.9690
+Epoch 160, Train Loss: 0.0898, Train Acc: 0.9879, Val Loss: 0.1312, Val Acc: 0.9690
+Epoch 170, Train Loss: 0.0859, Train Acc: 0.9879, Val Loss: 0.1291, Val Acc: 0.9690
+Epoch 180, Train Loss: 0.0822, Train Acc: 0.9879, Val Loss: 0.1276, Val Acc: 0.9662
+Epoch 190, Train Loss: 0.0790, Train Acc: 0.9888, Val Loss: 0.1265, Val Acc: 0.9662
+NN Train       - Loss: 0.0763, Acc: 0.9888
+NN Val         - Loss: 0.1255, Acc: 0.9690
+NN Test        - Loss: 0.1816, Acc: 0.9511
+
+Finished successfully.
+Saved log to: C:\Users\fgmz2\OneDrive\Documents\GitHub\Math4AI_Final_Project\starter_pack\scripts\results\logs\run_core_experiments_20260402_153833.log

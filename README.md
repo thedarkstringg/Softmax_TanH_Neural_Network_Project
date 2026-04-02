@@ -38,6 +38,17 @@ This capstone implements:
 
 ---
 
+
+## Team & Contributions
+
+| Member | Role |
+|--------|------|
+| **Ziyad Muradov** | Data loading/preprocessing, Softmax foundation, cross-entropy loss, numerical gradient checking |
+| **Emin Huseynli** | Forward pass, hidden layer tanh activation, full backpropagation derivation |
+| **Ismayil Yusifli** | Training loops, mini-batching implementation, experiment runners, seed studies |
+| **Kamal Soltanaliyev** | Decision boundary visualization, training curves, statistical analysis (CI), Track B (confidence calibration) |
+
+---
 ## Quick Start
 
 ```bash
@@ -178,17 +189,6 @@ Backward: Analytical backprop with chain rule
 - **No frameworks:** TensorFlow/PyTorch/scikit-learn not used for learning
 
 **Run:** `python scripts/sanity_checks.py`
-
----
-
-## Team & Contributions
-
-| Member | Role |
-|--------|------|
-| **Ziyad Muradov** | Data loading/preprocessing, Softmax foundation, cross-entropy loss, numerical gradient checking |
-| **Emin Huseynli** | Forward pass, hidden layer tanh activation, full backpropagation derivation |
-| **Ismayil Yusifli** | Training loops, mini-batching implementation, experiment runners, seed studies |
-| **Kamal Soltanaliyev** | Decision boundary visualization, training curves, statistical analysis (CI), Track B (confidence calibration) |
 
 ---
 

@@ -8,10 +8,10 @@ SRC_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "src"))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
-from training_utils import labels_to_onehot, compute_ci95_for_five
-from train_softmax import train_softmax, evaluate_softmax
-from train_nn_runner import train_nn_runner, evaluate_nn
-from experiment_logger import run_with_logging
+from training_utils import DataUtils, MetricsCalculator
+from train_softmax import SoftmaxTrainer
+from train_nn_runner import NNTrainer
+from experiment_logger import ExperimentLogger
 
 # -------------------------
 # Paths
@@ -57,9 +57,9 @@ def main():
     k = len(np.unique(y_train))
     d = X_train.shape[1]
 
-    Y_train = labels_to_onehot(y_train, k)
-    Y_val = labels_to_onehot(y_val, k)
-    Y_test = labels_to_onehot(y_test, k)
+    Y_train = DataUtils.labels_to_onehot(y_train, k)
+    Y_val = DataUtils.labels_to_onehot(y_val, k)
+    Y_test = DataUtils.labels_to_onehot(y_test, k)
 
     seeds = [0, 1, 2, 3, 4]
 
@@ -71,20 +71,19 @@ def main():
 
     for seed in seeds:
         print(f"\n===== Seed {seed}: Softmax =====")
-        W, b, _, best_epoch_sm = train_softmax(
+        softmax_trainer = SoftmaxTrainer(d, k, seed=seed)
+        W, b, _, best_epoch_sm = softmax_trainer.train(
             X_train, Y_train, y_train,
             X_val, Y_val, y_val,
-            d, k,
             epochs=200,
             lr=0.05,
             batch_size=64,
             lam=1e-4,
-            seed=seed,
             checkpoint_on_val=True,
         )
 
-        test_loss_sm, test_acc_sm = evaluate_softmax(
-            X_test, Y_test, y_test, W, b, 1e-4
+        test_loss_sm, test_acc_sm = softmax_trainer.evaluate(
+            X_test, Y_test, y_test, 1e-4
         )
 
         print(
@@ -96,20 +95,19 @@ def main():
         softmax_test_accs.append(test_acc_sm)
 
         print(f"\n===== Seed {seed}: Neural Net =====")
-        W1, b1, W2, b2, _, best_epoch_nn = train_nn_runner(
+        nn_trainer = NNTrainer(d, 32, k, seed=seed)
+        W1, b1, W2, b2, _, best_epoch_nn = nn_trainer.train(
             X_train, Y_train,
             X_val, Y_val,
-            d, 32, k,
             epochs=200,
             lr=0.05,
             batch_size=64,
             lam=1e-4,
-            seed=seed,
             checkpoint_on_val=True,
         )
 
-        test_loss_nn, test_acc_nn = evaluate_nn(
-            X_test, Y_test, W1, b1, W2, b2, 1e-4
+        test_loss_nn, test_acc_nn = nn_trainer.evaluate(
+            X_test, Y_test, 1e-4
         )
 
         print(
@@ -120,11 +118,11 @@ def main():
         nn_test_losses.append(test_loss_nn)
         nn_test_accs.append(test_acc_nn)
 
-    sm_acc_mean, sm_acc_low, sm_acc_high, sm_acc_std = compute_ci95_for_five(softmax_test_accs)
-    sm_loss_mean, sm_loss_low, sm_loss_high, sm_loss_std = compute_ci95_for_five(softmax_test_losses)
+    sm_acc_mean, sm_acc_low, sm_acc_high, sm_acc_std = MetricsCalculator.compute_ci95_for_five(softmax_test_accs)
+    sm_loss_mean, sm_loss_low, sm_loss_high, sm_loss_std = MetricsCalculator.compute_ci95_for_five(softmax_test_losses)
 
-    nn_acc_mean, nn_acc_low, nn_acc_high, nn_acc_std = compute_ci95_for_five(nn_test_accs)
-    nn_loss_mean, nn_loss_low, nn_loss_high, nn_loss_std = compute_ci95_for_five(nn_test_losses)
+    nn_acc_mean, nn_acc_low, nn_acc_high, nn_acc_std = MetricsCalculator.compute_ci95_for_five(nn_test_accs)
+    nn_loss_mean, nn_loss_low, nn_loss_high, nn_loss_std = MetricsCalculator.compute_ci95_for_five(nn_test_losses)
 
     print("\n===== 5-Seed Summary =====")
     print("Softmax Test Accs :", softmax_test_accs)
@@ -153,4 +151,5 @@ def main():
 
 
 if __name__ == "__main__":
-    run_with_logging(main, CURRENT_DIR, "run_digits_5seeds")
+    logger = ExperimentLogger(CURRENT_DIR, "run_digits_5seeds")
+    logger.run(main)
